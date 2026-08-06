@@ -1,0 +1,22 @@
+services:
+  wedding:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - wedding_data:/app/data
+      - ./config.yaml:/app/config.yaml:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.wedding.rule=Host(`wedding.example.com`)
+      - traefik.http.routers.wedding.entrypoints=websecure
+      - traefik.http.routers.wedding.tls.certresolver=letsencrypt
+      - traefik.http.services.wedding.loadbalancer.server.port=8000
+    networks:
+      - traefik
+
+volumes:
+  wedding_data:
+
+networks:
+  traefik:
+    external: true

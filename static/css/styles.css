@@ -1,0 +1,127 @@
+/* —— Atmosphere —— */
+.botanical-wash {
+  background:
+    radial-gradient(ellipse 80% 50% at 10% 20%, rgba(110, 143, 127, 0.12), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 90% 80%, rgba(201, 169, 164, 0.1), transparent 50%),
+    linear-gradient(180deg, #f4f7f5 0%, #e8f0ec 100%);
+}
+
+/* —— Hero motion —— */
+.hero-img {
+  transform: scale(1.08);
+  animation: hero- ken 18s ease-out forwards;
+}
+
+@keyframes hero-ken {
+  to {
+    transform: scale(1);
+  }
+}
+
+.hero-fade {
+  opacity: 0;
+  transform: translateY(1.25rem);
+  animation: fade-up 1s ease forwards;
+}
+
+.hero-fade-1 { animation-delay: 0.25s; }
+.hero-fade-2 { animation-delay: 0.5s; }
+.hero-fade-3 { animation-delay: 0.85s; }
+.hero-fade-4 { animation-delay: 1.15s; }
+
+@keyframes fade-up {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-cue {
+  animation: pulse-line 2.2s ease-in-out infinite;
+}
+
+@keyframes pulse-line {
+  0%, 100% { opacity: 0.25; transform: scaleY(0.7); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+/* —— Sticky nav —— */
+#site-nav.nav-solid {
+  background: rgba(15, 28, 24, 0.92);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+#site-nav.nav-solid .nav-brand,
+#site-nav.nav-solid .nav-link,
+#site-nav.nav-solid #menu-btn {
+  color: #f4f7f5;
+}
+
+/* —— Scroll reveal —— */
+.reveal {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timeline-item.reveal {
+  transition-delay: 0.05s;
+}
+
+/* —— RSVP choices —— */
+.choice-ui {
+  display: inline-block;
+  cursor: pointer;
+  border: 1px solid rgba(26, 46, 40, 0.2);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 300;
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.choice input:checked + .choice-ui {
+  background: #1a2e28;
+  border-color: #1a2e28;
+  color: #f4f7f5;
+}
+
+.choice input:focus-visible + .choice-ui {
+  outline: 2px solid #6e8f7f;
+  outline-offset: 2px;
+}
+
+/* —— Form —— */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236E8F7F' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.25rem center;
+  padding-right: 1.5rem;
+}
+
+#rsvp-status.is-ok {
+  color: #6e8f7f;
+}
+
+#rsvp-status.is-err {
+  color: #a65d57;
+}
+
+/* —— Reduced motion —— */
+@media (prefers-reduced-motion: reduce) {
+  .hero-img,
+  .hero-fade,
+  .scroll-cue,
+  .reveal {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

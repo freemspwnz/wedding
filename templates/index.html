@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ c.couple.bride }} &amp; {{ c.couple.groom }} — свадьба</title>
+  <meta name="description" content="Приглашение на свадьбу {{ c.couple.bride }} и {{ c.couple.groom }}. {{ c.date.display }}." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#1A2E28',
+            mist: '#E8F0EC',
+            sage: '#6E8F7F',
+            blush: '#C9A9A4',
+            champagne: '#C4AE86',
+            paper: '#F4F7F5',
+            deep: '#0F1C18',
+          },
+          fontFamily: {
+            display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['Manrope', 'ui-sans-serif', 'sans-serif'],
+          },
+          letterSpacing: {
+            widest2: '0.28em',
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="/static/css/styles.css" />
+</head>
+<body class="bg-paper text-ink font-sans antialiased">
+  <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:bg-paper focus:px-4 focus:py-2">
+    К содержимому
+  </a>
+
+  <header class="site-nav fixed inset-x-0 top-0 z-50 transition-all duration-500" id="site-nav">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 md:px-8">
+      <a href="#top" class="font-display text-xl tracking-wide text-white nav-brand transition-colors duration-300">
+        {{ c.couple.initials }}
+      </a>
+      <nav class="hidden items-center gap-8 text-[11px] font-medium uppercase tracking-widest2 text-white/85 md:flex" aria-label="Основная навигация">
+        <a href="#invite" class="nav-link transition-opacity hover:opacity-70">Приглашение</a>
+        <a href="#details" class="nav-link transition-opacity hover:opacity-70">Детали</a>
+        <a href="#timeline" class="nav-link transition-opacity hover:opacity-70">Программа</a>
+        <a href="#rsvp" class="nav-link transition-opacity hover:opacity-70">RSVP</a>
+      </nav>
+      <button type="button" id="menu-btn" class="md:hidden text-white" aria-label="Открыть меню" aria-expanded="false">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="hidden border-t border-white/10 bg-deep/95 backdrop-blur-md md:hidden">
+      <nav class="flex flex-col gap-4 px-6 py-6 text-sm uppercase tracking-widest2 text-white/90" aria-label="Мобильная навигация">
+        <a href="#invite" class="mobile-link">Приглашение</a>
+        <a href="#details" class="mobile-link">Детали</a>
+        <a href="#timeline" class="mobile-link">Программа</a>
+        <a href="#rsvp" class="mobile-link">RSVP</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section id="top" class="hero relative min-h-[100svh] overflow-hidden" aria-label="Главный экран">
+      <div class="hero-media absolute inset-0">
+        <img
+          src="{{ c.hero.image }}"
+          alt=""
+          class="hero-img h-full w-full object-cover"
+          fetchpriority="high"
+        />
+        <div class="absolute inset-0 bg-gradient-to-b from-deep/55 via-deep/35 to-deep/70"></div>
+      </div>
+
+      <div class="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-6 pb-24 pt-28 text-center text-white">
+        <p class="hero-fade hero-fade-1 mb-6 text-[11px] font-medium uppercase tracking-widest2 text-white/75">
+          {{ c.date.display }}
+        </p>
+        <h1 class="hero-fade hero-fade-2 font-display text-[clamp(3.5rem,12vw,8rem)] font-medium leading-[0.95] tracking-tight">
+          {{ c.couple.bride }}
+          <span class="block font-display text-[clamp(1.75rem,4vw,2.75rem)] italic font-normal text-champagne my-2 md:my-3">&amp;</span>
+          {{ c.couple.groom }}
+        </h1>
+        <p class="hero-fade hero-fade-3 mx-auto mt-8 max-w-md text-base font-light leading-relaxed text-white/80 md:text-lg">
+          {{ c.hero.subtitle }}
+        </p>
+        <div class="hero-fade hero-fade-4 mt-10">
+          <a
+            href="#rsvp"
+            class="inline-block border border-white/50 bg-white/10 px-9 py-3.5 text-[11px] font-medium uppercase tracking-widest2 text-white backdrop-blur-sm transition hover:bg-white hover:text-ink"
+          >
+            {{ c.hero.cta }}
+          </a>
+        </div>
+      </div>
+
+      <div class="absolute bottom-8 left-1/2 z-10 -translate-x-1/2" aria-hidden="true">
+        <div class="scroll-cue h-10 w-px bg-gradient-to-b from-white/0 via-white/60 to-white/0"></div>
+      </div>
+    </section>
+
+    <section id="invite" class="relative overflow-hidden px-6 py-24 md:py-32">
+      <div class="pointer-events-none absolute inset-0 botanical-wash" aria-hidden="true"></div>
+      <div class="relative mx-auto max-w-2xl text-center reveal">
+        <p class="mb-6 text-[11px] font-medium uppercase tracking-widest2 text-sage">{{ c.invite.eyebrow }}</p>
+        <h2 class="font-display text-4xl font-medium leading-tight text-ink md:text-5xl">
+          {{ c.invite.title }}
+        </h2>
+        <p class="mt-8 text-lg font-light leading-relaxed text-ink/70 md:text-xl">
+          {{ c.invite.text }}
+        </p>
+      </div>
+    </section>
+
+    <section id="details" class="relative">
+      <div class="grid lg:grid-cols-2">
+        <div class="relative min-h-[55vh] lg:min-h-[70vh]">
+          <img
+            src="{{ c.venue.image }}"
+            alt="{{ c.venue.name }}"
+            class="absolute inset-0 h-full w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+        <div class="flex items-center bg-ink px-8 py-20 text-mist md:px-16 lg:px-20">
+          <div class="reveal w-full max-w-md">
+            <p class="mb-4 text-[11px] font-medium uppercase tracking-widest2 text-champagne">Когда и где</p>
+            <h2 class="font-display text-4xl font-medium text-white md:text-5xl">{{ c.venue.name }}</h2>
+            <dl class="mt-12 space-y-8">
+              <div>
+                <dt class="text-[11px] uppercase tracking-widest2 text-sage">Дата</dt>
+                <dd class="mt-2 font-display text-2xl text-white">{{ c.date.weekday }}</dd>
+              </div>
+              <div>
+                <dt class="text-[11px] uppercase tracking-widest2 text-sage">Церемония</dt>
+                <dd class="mt-2 font-display text-2xl text-white">{{ c.venue.ceremony_time }}</dd>
+                <dd class="mt-1 text-sm font-light text-mist/65">Просим приехать к&nbsp;{{ c.venue.arrive_by }}</dd>
+              </div>
+              <div>
+                <dt class="text-[11px] uppercase tracking-widest2 text-sage">Адрес</dt>
+                <dd class="mt-2 text-base font-light leading-relaxed text-mist/85">
+                  {% for line in c.venue.address_lines %}
+                    {{ line }}{% if not loop.last %}<br />{% endif %}
+                  {% endfor %}
+                </dd>
+                <a
+                  href="{{ c.venue.map_url }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="mt-4 inline-block text-[11px] uppercase tracking-widest2 text-champagne underline-offset-4 hover:underline"
+                >
+                  Открыть на карте
+                </a>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="timeline" class="px-6 py-24 md:py-32">
+      <div class="mx-auto max-w-3xl">
+        <div class="reveal mb-16 text-center">
+          <p class="mb-4 text-[11px] font-medium uppercase tracking-widest2 text-sage">Программа дня</p>
+          <h2 class="font-display text-4xl font-medium md:text-5xl">Как всё пройдёт</h2>
+        </div>
+
+        <ol class="timeline relative space-y-0">
+          {% for item in c.timeline %}
+          <li class="reveal timeline-item grid grid-cols-[5rem_1fr] gap-6 border-t {% if loop.last %}border-b {% endif %}border-ink/10 py-8 md:grid-cols-[7rem_1fr] md:gap-10">
+            <time class="font-display text-2xl text-sage md:text-3xl">{{ item.time }}</time>
+            <div>
+              <h3 class="font-display text-2xl text-ink">{{ item.title }}</h3>
+              <p class="mt-2 text-sm font-light leading-relaxed text-ink/60">{{ item.description }}</p>
+            </div>
+          </li>
+          {% endfor %}
+        </ol>
+      </div>
+    </section>
+
+    <section class="relative overflow-hidden bg-mist px-6 py-24 md:py-28">
+      <div class="pointer-events-none absolute -right-20 top-0 h-80 w-80 rounded-full bg-sage/10 blur-3xl" aria-hidden="true"></div>
+      <div class="relative mx-auto grid max-w-5xl gap-16 md:grid-cols-2 md:gap-20">
+        <div class="reveal">
+          <p class="mb-4 text-[11px] font-medium uppercase tracking-widest2 text-sage">Дресс-код</p>
+          <h2 class="font-display text-3xl font-medium md:text-4xl">{{ c.dress_code.title }}</h2>
+          <p class="mt-5 text-base font-light leading-relaxed text-ink/65">
+            {{ c.dress_code.text }}
+          </p>
+          <div class="mt-8 flex gap-3" aria-label="Палитра дресс-кода">
+            {% for color in c.dress_code.colors %}
+            <span
+              class="h-10 w-10 rounded-full{% if color.border %} border border-ink/15{% endif %}"
+              style="background-color: {{ color.hex }}"
+              title="{{ color.name }}"
+            ></span>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="reveal">
+          <p class="mb-4 text-[11px] font-medium uppercase tracking-widest2 text-sage">Важно знать</p>
+          <h2 class="font-display text-3xl font-medium md:text-4xl">{{ c.notes.title }}</h2>
+          <ul class="mt-5 space-y-4 text-base font-light leading-relaxed text-ink/65">
+            {% for item in c.notes.points %}
+            <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="rsvp" class="px-6 py-24 md:py-32">
+      <div class="mx-auto max-w-xl">
+        <div class="reveal mb-12 text-center">
+          <p class="mb-4 text-[11px] font-medium uppercase tracking-widest2 text-sage">RSVP</p>
+          <h2 class="font-display text-4xl font-medium md:text-5xl">{{ c.rsvp.title }}</h2>
+          <p class="mt-5 text-base font-light text-ink/60">
+            Пожалуйста, ответьте до&nbsp;{{ c.date.rsvp_deadline }}
+          </p>
+        </div>
+
+        <form id="rsvp-form" class="reveal space-y-6" novalidate>
+          <div>
+            <label for="name" class="mb-2 block text-[11px] uppercase tracking-widest2 text-sage">Ваше имя</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              autocomplete="name"
+              class="w-full border-0 border-b border-ink/20 bg-transparent px-0 py-3 text-base outline-none transition focus:border-sage"
+              placeholder="Имя и фамилия"
+            />
+          </div>
+
+          <div>
+            <label for="guests" class="mb-2 block text-[11px] uppercase tracking-widest2 text-sage">Количество гостей</label>
+            <select
+              id="guests"
+              name="guests"
+              required
+              class="w-full border-0 border-b border-ink/20 bg-transparent px-0 py-3 text-base outline-none transition focus:border-sage"
+            >
+              <option value="1">1</option>
+              <option value="2" selected>2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5+</option>
+            </select>
+          </div>
+
+          <fieldset>
+            <legend class="mb-4 text-[11px] uppercase tracking-widest2 text-sage">Присутствие</legend>
+            <div class="flex flex-wrap gap-3">
+              <label class="choice">
+                <input type="radio" name="attendance" value="yes" required class="peer sr-only" checked />
+                <span class="choice-ui">С радостью приду</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="attendance" value="no" class="peer sr-only" />
+                <span class="choice-ui">К сожалению, не смогу</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div>
+            <label for="message" class="mb-2 block text-[11px] uppercase tracking-widest2 text-sage">Пожелания</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="3"
+              class="w-full resize-none border-0 border-b border-ink/20 bg-transparent px-0 py-3 text-base outline-none transition focus:border-sage"
+              placeholder="Аллергии, пожелания к меню — всё, что нам важно знать"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            id="rsvp-submit"
+            class="mt-4 w-full bg-ink px-8 py-4 text-[11px] font-medium uppercase tracking-widest2 text-white transition hover:bg-sage disabled:opacity-60"
+          >
+            Отправить ответ
+          </button>
+
+          <p id="rsvp-status" class="min-h-[1.5rem] text-center text-sm font-light" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="relative min-h-[60vh] overflow-hidden">
+      <img
+        src="{{ c.closing.image }}"
+        alt=""
+        class="absolute inset-0 h-full w-full object-cover"
+        loading="lazy"
+      />
+      <div class="absolute inset-0 bg-deep/55"></div>
+      <div class="relative z-10 flex min-h-[60vh] flex-col items-center justify-center px-6 py-24 text-center text-white">
+        <p class="reveal font-display text-3xl italic leading-snug md:text-5xl">
+          {{ c.closing.text }}
+        </p>
+        <p class="reveal mt-8 font-display text-2xl text-champagne">{{ c.couple.bride }} &amp; {{ c.couple.groom }}</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-deep px-6 py-10 text-center">
+    <p class="text-[11px] uppercase tracking-widest2 text-white/40">
+      С любовью · {{ c.date.short }}
+    </p>
+  </footer>
+
+  <script src="/static/js/main.js" defer></script>
+</body>
+</html>
