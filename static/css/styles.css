@@ -113,6 +113,24 @@ select {
   color: #a65d57;
 }
 
+/* Metallic dress-code swatch */
+.color-swatch-metallic {
+  background:
+    linear-gradient(
+      145deg,
+      #f7f7f7 0%,
+      #d0d0d0 22%,
+      #fafafa 38%,
+      #a8a8a8 55%,
+      #eaeaea 72%,
+      #9c9c9c 88%,
+      #dedede 100%
+    );
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.85),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.25);
+}
+
 /* —— Reduced motion —— */
 @media (prefers-reduced-motion: reduce) {
   .hero-img,

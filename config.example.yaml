@@ -50,23 +50,18 @@ dress_code:
   text: >
     Оттенки леса, песка и пыльной розы будут смотреться особенно красиво.
     Главное — чтобы вам было комфортно праздновать.
+  image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=80"
   colors:
     - { hex: "#1A2E28", name: "Глубокий зелёный" }
     - { hex: "#6E8F7F", name: "Шалфей" }
     - { hex: "#C4AE86", name: "Шампань" }
     - { hex: "#C9A9A4", name: "Пыльная роза" }
     - { hex: "#F4F7F5", name: "Светлый", border: true }
-
-notes:
-  title: Пара слов о деталях
-  points:
-    - Церемония на открытом воздухе — возьмите лёгкий шарф или пиджак к вечеру.
-    - Детей будем рады видеть, для них подготовлен уголок с играми.
-    - Подарки — по желанию. Ваше присутствие для нас главное.
+    - { name: "Серебристый", metallic: true, border: true }
 
 closing:
   text: До встречи в самый счастливый день
-  image: "https://images.unsplash.com/photo-1522673607200-164a1e4e8f1d?auto=format&fit=crop&w=2000&q=80"
+  image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=2000&q=80"
 
 rsvp:
   title: Будете с нами?
