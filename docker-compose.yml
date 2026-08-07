@@ -1,9 +1,12 @@
 services:
   wedding:
     build: .
+    container_name: wedding
     restart: unless-stopped
+    env_file:
+      - .env
     volumes:
-      - wedding_data:/app/data
+      - ./data:/app/data
       - ./config.yaml:/app/config.yaml:ro
     labels:
       - traefik.enable=true
@@ -13,9 +16,6 @@ services:
       - traefik.http.services.wedding.loadbalancer.server.port=8000
     networks:
       - traefik
-
-volumes:
-  wedding_data:
 
 networks:
   traefik:

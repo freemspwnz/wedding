@@ -1,24 +1,35 @@
-"""Свадебная визитка: статика + API для RSVP."""
+"""Wedding invitation site: static pages + RSVP API."""
 
-from __future__ import annotations
-
+import html
 import json
+import logging
+import os
 import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Literal
+from zoneinfo import ZoneInfo
 
+import httpx2
 import yaml
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field, field_validator
 
+load_dotenv()
+
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "data"
 RSVP_FILE = DATA_DIR / "rsvp.json"
 CONFIG_FILE = ROOT / "config.yaml"
+
+TELEGRAM_TOKEN = os.getenv("TOKEN", "").strip()
+TELEGRAM_CHAT_ID = os.getenv("CHAT_ID", "").strip()
+
+logger = logging.getLogger("wedding")
 
 app = FastAPI(title="Wedding Invitation", docs_url=None, redoc_url=None)
 app.mount("/static", StaticFiles(directory=ROOT / "static"), name="static")
@@ -29,17 +40,17 @@ _config_mtime: float | None = None
 
 
 def load_config() -> dict[str, Any]:
-    """Читает config.yaml, перечитывает при изменении файла."""
+    """Load config.yaml, re-reading when the file changes."""
     global _config_cache, _config_mtime
     if not CONFIG_FILE.exists():
-        raise FileNotFoundError(f"Конфиг не найден: {CONFIG_FILE}")
+        raise FileNotFoundError(f"Config not found: {CONFIG_FILE}")
     mtime = CONFIG_FILE.stat().st_mtime
     if _config_cache is not None and _config_mtime == mtime:
         return _config_cache
     with CONFIG_FILE.open(encoding="utf-8") as f:
         data = yaml.safe_load(f)
     if not isinstance(data, dict):
-        raise ValueError("config.yaml должен содержать объект верхнего уровня")
+        raise ValueError("config.yaml must contain a top-level object")
     _config_cache = data
     _config_mtime = mtime
     return data
@@ -84,6 +95,60 @@ def _save_rsvp(entry: dict) -> None:
     )
 
 
+def _format_created_at(raw: str) -> str:
+    try:
+        dt = datetime.fromisoformat(raw)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        local = dt.astimezone(ZoneInfo("Europe/Moscow"))
+        return local.strftime("%d.%m.%Y %H:%M")  # 07.08.2026 11:35
+    except (TypeError, ValueError):
+        return raw or "—"
+
+
+def _format_rsvp_telegram(entry: dict) -> str:
+    coming = entry.get("attendance") == "yes"
+    status = "Придёт" if coming else "Не сможет"
+    message = entry.get("message") or "—"
+    created = entry.get("created_at", "—")
+
+    return (
+        "<b>Новый ответ RSVP</b>\n\n"
+        f"<b>Имя:</b> {html.escape(str(entry.get('name', '—')))}\n"
+        f"<b>Присутствие:</b> {status}\n"
+        f"<b>Гостей:</b> {entry.get('guests', '—')}\n"
+        f"<b>Пожелание:</b> {html.escape(str(message))}\n"
+        f"<b>Время (МСК):</b> {_format_created_at(str(created))}"
+    )
+
+
+async def _notify_telegram(entry: dict) -> None:
+    """Best-effort Telegram notify; failures must not break RSVP."""
+    if not TELEGRAM_TOKEN or not TELEGRAM_CHAT_ID:
+        logger.warning("TOKEN/CHAT_ID not set — skipping Telegram notification")
+        return
+    if TELEGRAM_TOKEN == "CHANGE_ME" or TELEGRAM_CHAT_ID == "CHANGE_ME":
+        logger.warning("TOKEN/CHAT_ID still placeholders — skipping Telegram notification")
+        return
+
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    payload = {
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": _format_rsvp_telegram(entry),
+        "parse_mode": "HTML",
+        "disable_web_page_preview": True,
+    }
+    try:
+        async with httpx2.AsyncClient(timeout=10.0) as client:
+            res = await client.post(url, json=payload)
+            res.raise_for_status()
+            data = res.json()
+            if not data.get("ok"):
+                logger.error("Telegram API returned an error: %s", data)
+    except Exception:
+        logger.exception("Failed to send Telegram notification")
+
+
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request) -> HTMLResponse:
     try:
@@ -107,6 +172,8 @@ async def create_rsvp(payload: RsvpIn) -> dict:
         _save_rsvp(entry)
     except OSError as exc:
         raise HTTPException(status_code=500, detail="Не удалось сохранить ответ") from exc
+
+    await _notify_telegram(entry)
     return {"ok": True}
 
 

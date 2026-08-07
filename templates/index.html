@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ c.couple.bride }} &amp; {{ c.couple.groom }} — свадьба</title>
-  <meta name="description" content="Приглашение на свадьбу {{ c.couple.bride }} и {{ c.couple.groom }}. {{ c.date.display }}." />
+  <title>{{ c.couple.groom }} &amp; {{ c.couple.bride }} — свадьба</title>
+  <meta name="description" content="Приглашение на свадьбу {{ c.couple.groom }} и {{ c.couple.bride }}. {{ c.date.display }}." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -86,9 +86,9 @@
           {{ c.date.display }}
         </p>
         <h1 class="hero-fade hero-fade-2 font-display text-[clamp(3.5rem,12vw,8rem)] font-medium leading-[0.95] tracking-tight">
-          {{ c.couple.bride }}
-          <span class="block font-display text-[clamp(1.75rem,4vw,2.75rem)] italic font-normal text-champagne my-2 md:my-3">&amp;</span>
           {{ c.couple.groom }}
+          <span class="block font-display text-[clamp(1.75rem,4vw,2.75rem)] italic font-normal text-champagne my-2 md:my-3">&amp;</span>
+          {{ c.couple.bride }}
         </h1>
         <p class="hero-fade hero-fade-3 mx-auto mt-8 max-w-md text-base font-light leading-relaxed text-white/80 md:text-lg">
           {{ c.hero.subtitle }}
@@ -309,7 +309,7 @@
         <p class="reveal font-display text-3xl italic leading-snug md:text-5xl">
           {{ c.closing.text }}
         </p>
-        <p class="reveal mt-8 font-display text-2xl text-champagne">{{ c.couple.bride }} &amp; {{ c.couple.groom }}</p>
+        <p class="reveal mt-8 font-display text-2xl text-champagne">{{ c.couple.groom }} &amp; {{ c.couple.bride }}</p>
       </div>
     </section>
   </main>
